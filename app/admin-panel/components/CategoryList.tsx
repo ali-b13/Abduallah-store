@@ -17,11 +17,11 @@ export default function CategoriesList({ categories, onEdit, onDelete }: Props) 
     <ul className="space-y-2">
       {categories.map(cat => (
         <li key={cat.id} className="flex justify-between p-4 border rounded-lg">
-          <span>{cat.name}</span>
+          <span className='text-gray-800'>{cat.name}</span>
           
           <div className="flex gap-2">
             <Button variant="outline" onClick={() => onEdit(cat.id)}>
-              <Edit className="w-4 h-4" />
+              <Edit color='black' className="w-4 h-4" />
             </Button>
             <Button variant="destructive" onClick={() => onDelete(cat.id,cat.name)}>
               <Trash className="w-4 h-4" />

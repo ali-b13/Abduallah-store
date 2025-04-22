@@ -146,7 +146,7 @@ const AdminUsersPage = () => {
 
       {/* Search and Header */}
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
-        <h1 className="text-2xl md:text-3xl font-bold">المستخدمين ({totalItems})</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900">المستخدمين ({totalItems})</h1>
         <Input
           placeholder="ابحث بالاسم أو الجوال..."
           value={searchQuery}

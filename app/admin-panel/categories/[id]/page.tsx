@@ -117,27 +117,29 @@ export default function EditCategoryPage() {
 
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-lg space-y-6">
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-neutral-400">اسم الفئة بالعربي</label>
+          <label className="block text-sm font-medium text-gray-900">اسم الفئة بالعربي</label>
           <Input
             title="Category Name *"
             value={form.name}
             onChange={handleChange('name')}
             required
+            className='text-gray-700'
           />
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-neutral-400">نوع الفئة بالانجليزي مثال: books</label>
+          <label className="block text-sm font-medium text-gray-700">نوع الفئة بالانجليزي مثال: books</label>
           <Input
             title="Category Type *"
             value={form.type}
             onChange={handleChange('type')}
             required
+            className='text-gray-700'
           />
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-neutral-400">صورة الفئة</label>
+          <label className="block text-sm font-medium text-gray-700">صورة الفئة</label>
           <label className="flex flex-col items-center justify-center w-full p-4 border-2 border-dashed rounded-lg cursor-pointer border-slate-300 hover:border-indigo-500 transition-colors">
             <input
               type="file"
@@ -152,7 +154,7 @@ export default function EditCategoryPage() {
           </label>
           {previewImage && (
             <div className="mt-4">
-              <p className="text-sm text-slate-600 mb-2">معاينة:</p>
+              <p className="text-sm text-gray-700 mb-2">معاينة:</p>
               <Image
               width={160}
               height={160}
@@ -165,7 +167,7 @@ export default function EditCategoryPage() {
         </div>
 
         <div className="flex justify-end gap-4 pt-6">
-          <Button variant="outline" onClick={() => router.back()} disabled={!!modalStatus}>
+          <Button className='text-gray-900' variant="outline" onClick={() => router.back()} disabled={!!modalStatus}>
             إلغاء
           </Button>
           <Button type="submit" disabled={!!modalStatus}>

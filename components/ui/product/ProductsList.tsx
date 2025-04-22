@@ -80,8 +80,8 @@ export default function ProductsList() {
       {/* Filter Section */}
       <div className="mb-8 space-y-4">
         <div className="flex flex-col sm:flex-row gap-4 items-center">
-          <div className="relative w-full sm:max-w-md">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <div className="relative w-full sm:max-w-md text-gray-700">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 " />
             <Input
               type="text"
               placeholder="ابحث عن منتج..."
@@ -95,12 +95,12 @@ export default function ProductsList() {
             <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-3 w-full rounded-xl border-2 border-gray-100 bg-white shadow-sm hover:shadow-md transition-shadow focus:ring-2 focus:ring-primary-500 focus:border-primary-500 appearance-none"
+            className=" text-gray-700 px-4 py-3 w-full rounded-xl border-2 border-gray-100 bg-white shadow-sm hover:shadow-md transition-shadow focus:ring-2 focus:ring-primary-500 focus:border-primary-500 appearance-none"
           >
               {/* Default All option */}
               <option 
                 value="all" 
-                className="text-gray-500 py-2 hover:bg-gray-50"
+                className=" py-2 hover:bg-gray-50"
               >
                 الكل
               </option>
@@ -119,7 +119,7 @@ export default function ProductsList() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-primary-500 appearance-none"
+              className="px-4 py-2 rounded-lg border border-gray-200 bg-white shadow-sm focus:ring-2 focus:ring-primary-500 appearance-none text-gray-700"
             >
               {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>

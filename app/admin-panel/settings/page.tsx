@@ -121,8 +121,8 @@ const SettingsPage = () => {
         {/* Profile Section */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <User className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-gray-900">
+              <User color='black' className="w-5 h-5" />
               الملف الشخصي
             </CardTitle>
           </CardHeader>
@@ -130,21 +130,23 @@ const SettingsPage = () => {
             <form onSubmit={handleProfileUpdate} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">الاسم</label>
+                  <label className="block text-sm font-medium text-gray-800">الاسم</label>
                   <Input
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     disabled={loading}
+                    className='text-gray-800'
                   />
                 </div>
                 
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">رقم الجوال</label>
+                  <label className="block text-sm font-medium text-gray-800">رقم الجوال</label>
                   <Input
                     value={formData.mobile}
                     onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
                     disabled={loading}
+                    className='text-gray-800'
                   />
                 </div>
               </div>
@@ -159,8 +161,8 @@ const SettingsPage = () => {
         {/* Security Section */}
         <Card>
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lock className="w-5 h-5" />
+            <CardTitle className="flex items-center gap-2 text-gray-900">
+              <Lock color='black' className="w-5 h-5" />
               الأمان
             </CardTitle>
           </CardHeader>
@@ -168,32 +170,35 @@ const SettingsPage = () => {
             <form onSubmit={handlePasswordChange} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">كلمة المرور الحالية</label>
+                  <label className="block text-sm font-medium text-gray-800">كلمة المرور الحالية</label>
                   <Input
                     type="password"
                     value={securityData.currentPassword}
                     onChange={(e) => setSecurityData({ ...securityData, currentPassword: e.target.value })}
                     disabled={loading}
+                    className='text-gray-800'
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">كلمة المرور الجديدة</label>
+                  <label className="block text-sm font-medium text-gray-800">كلمة المرور الجديدة</label>
                   <Input
                     type="password"
                     value={securityData.newPassword}
                     onChange={(e) => setSecurityData({ ...securityData, newPassword: e.target.value })}
                     disabled={loading}
+                    className='text-gray-800'
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <label className="block text-sm font-medium">تأكيد كلمة المرور</label>
+                  <label className="block text-sm font-medium text-gray-800">تأكيد كلمة المرور</label>
                   <Input
                     type="password"
                     value={securityData.confirmPassword}
                     onChange={(e) => setSecurityData({ ...securityData, confirmPassword: e.target.value })}
                     disabled={loading}
+                    className='text-gray-800'
                   />
                 </div>
               </div>

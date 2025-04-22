@@ -110,7 +110,7 @@ export default function OverviewPage() {
       <section>
         <div className="flex justify-between items-center mb-4">
             
-          <h2 className="text-xl font-semibold">الفئات</h2>
+          <h2 className="text-xl font-semibold text-gray-900">الفئات</h2>
           <Button onClick={() => router.push('/admin-panel/categories/create-category')}>
             <Plus className="w-4 h-4 mr-2" /> اضافة فئة جديدة
           </Button>
@@ -148,7 +148,7 @@ export default function OverviewPage() {
       {/* Banners Section */}
       <section>
         <div className="flex justify-between items-center my-4">
-          <h2 className="text-xl font-semibold">البانرات</h2>
+          <h2 className="text-xl font-semibold text-gray-900">البانرات</h2>
           <Button onClick={() => router.push('/admin-panel/categories/banners/create-banner')}>
             <Plus className="w-4 h-4 mr-2" /> اضافة بانر جديد
           </Button>

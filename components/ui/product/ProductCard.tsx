@@ -18,7 +18,7 @@ export function ProductCard({ id, name, price, currency,discount, averageRating,
       <Link href={`/products/${id}`} className="block">
         <div className="aspect-[4/3] relative overflow-hidden">
           <Image
-            src={`${process.env.NEXT_PUBLIC_API_URL}/${images[0]}`}
+            src={images[0]}
             alt={name}
             fill
             className="object-cover transition-transform duration-500 group-hover:scale-105"

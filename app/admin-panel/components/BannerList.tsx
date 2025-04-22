@@ -27,7 +27,7 @@ export default function BannersList({ banners, onEdit, onDelete }: Props) {
               <Image src={b.image} alt={b?.title||"بانر"} fill className="object-cover" />
             )}
           </div>
-          <div className="p-4 space-y-2">
+          <div className="p-4 space-y-2 text-gray-800">
             {b.title&&<h3 className="font-semibold text-lg">{b.title}</h3>}
             <div className="flex items-center justify-between pt-4">
              {b.link&& <Button variant="outline">
@@ -35,7 +35,7 @@ export default function BannersList({ banners, onEdit, onDelete }: Props) {
               </Button>}
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => onEdit(b.id)}>
-                  <Edit className="w-4 h-4" />
+                  <Edit color='black' className="w-4 h-4" />
                 </Button>
                 <Button variant="destructive" onClick={() => onDelete(b.id,b?.title||"البانر")}>
                   <Trash className="w-4 h-4" />

@@ -137,7 +137,7 @@ const NewProductPage = () => {
   }
 
   return (
-    <div className="p-4 md:p-6 max-w-7xl mx-auto">
+    <div className="p-4 md:p-6 max-w-7xl mx-auto text-gray-800">
       <Button 
         variant="outline" 
         onClick={() => router.back()}
@@ -285,7 +285,9 @@ const NewProductPage = () => {
               >
                 إلغاء
               </Button>
-              <Button type="submit" disabled={saving}>
+              <Button 
+             
+              type="submit" disabled={saving}>
                 {saving ? (
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                 ) : (

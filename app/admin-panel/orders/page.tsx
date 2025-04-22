@@ -33,6 +33,10 @@ const OrdersPage = () => {
     total: 0
   });
 
+  useEffect(() => {
+    fetchInitialData();
+  }, []);
+
   const fetchInitialData = async () => {
     try {
       const response = await fetch(`/api/admin/orders`);

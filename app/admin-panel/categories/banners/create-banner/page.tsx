@@ -189,7 +189,7 @@ export default function CreateBannerPage() {
         </div>
 
         <div className="flex justify-end gap-4 pt-6">
-          <Button variant="outline" onClick={() => router.back()} disabled={!!modalStatus}>
+          <Button className='text-slate-800' variant="outline" onClick={() => router.back()} disabled={!!modalStatus}>
             إلغاء
           </Button>
           <Button type="submit" disabled={!!modalStatus}>

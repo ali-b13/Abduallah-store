@@ -53,7 +53,7 @@ const EditProductPage = () => {
         setCategories(data.categories)
         setCurrencies(data.currencies)
         setImagePreview(data.product.images.map((img:string) => 
-          `${process.env.NEXT_PUBLIC_API_URL}/${img}`
+          img
         ));
       } catch (error) {
         console.log(error)
@@ -142,7 +142,7 @@ const EditProductPage = () => {
   if (!product) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <p className="text-xl">المنتج غير موجود</p>
+        <p className="text-xl text-gray-800">المنتج غير موجود</p>
       </div>
     );
   }
@@ -152,7 +152,7 @@ const EditProductPage = () => {
       <Button 
         variant="outline" 
         onClick={() => router.back()}
-        className="mb-4"
+        className="mb-4 text-gray-900"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
         رجوع
@@ -160,7 +160,7 @@ const EditProductPage = () => {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">تعديل المنتج</CardTitle>
+          <CardTitle className="text-lg text-gray-800">تعديل المنتج</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit}>
@@ -168,16 +168,17 @@ const EditProductPage = () => {
               {/* Product Info */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">اسم المنتج</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-800">اسم المنتج</label>
                   <Input
                     value={product.name}
                     onChange={(e) => setProduct({...product, name: e.target.value})}
                     required
+                    className='text-gray-800'
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1"> سعر الشراء</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-800"> سعر الشراء</label>
                   <Input
                     type="number"
                     value={product.salePrice||0.00}
@@ -185,10 +186,11 @@ const EditProductPage = () => {
                     required
                     min="0"
                     step="0.01"
+                    className='text-gray-800'
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1"> سعر البيع</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-800"> سعر البيع</label>
                   <Input
                     type="number"
                     value={product.price||0.00}
@@ -196,46 +198,51 @@ const EditProductPage = () => {
                     required
                     min="0"
                     step="0.01"
+                    className='text-gray-800'
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">الفئة</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-800">الفئة</label>
                   <Select
                     options={categories}
                     value={product.categoryId}
                     onChange={(e) => setProduct({...product, categoryId:e.target.value})}
                     required
+                    className='text-gray-800'
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">العملة</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-800">العملة</label>
                   <Select
                   options={currencies}
                     value={product.currencyId}
                     onChange={(e) => setProduct({...product, currencyId: e.target.value})}
                     required
+                    className='text-gray-800'
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1"> السعر المخفض</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-800"> السعر المخفض</label>
                   <Input
                     type='number'
                     value={product.discount?.price||0}
                     onChange={(e) => setProduct({...product, discount: {price:parseFloat(e.target.value)}})}
                      min="0"
                     step="0.01"
+                    className='text-gray-800'
                   />
                 </div>
                 
 
                 <div>
-                  <label className="block text-sm font-medium mb-1">الوصف</label>
+                  <label className="block text-sm font-medium mb-1 text-gray-800">الوصف</label>
                   <textarea
                     value={product.description}
                     onChange={(e) => setProduct({...product, description: e.target.value})}
-                    className="w-full border rounded-md p-2 min-h-[100px] resize-none"
+                    className="w-full border rounded-md p-2 min-h-[100px] resize-none text-gray-800"
                     required
+                    
                   />
                 </div>
               </div>
@@ -283,10 +290,11 @@ const EditProductPage = () => {
               </div>
             </div>
 
-            <div className="flex justify-end mt-6 gap-3">
+            <div className="flex justify-end mt-6 gap-3 ">
               <Button
                 type="button"
                 variant="outline"
+                className='text-gray-800'
                 onClick={() => router.push('/admin/products')}
               >
                 إلغاء

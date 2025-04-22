@@ -39,7 +39,9 @@ export const GET = async (req: NextRequest) => {
           createdAt: true
         }
       }),
-      prisma.user.count()
+      prisma.user.count({where:{
+        isAdmin:false
+      }})
     ]);
 
     // Get stats

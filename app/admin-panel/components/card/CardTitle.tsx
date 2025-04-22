@@ -8,7 +8,7 @@ import { ComponentPropsWithoutRef, forwardRef } from "react";
     ({ className, ...props }, ref) => (
       <h3
         ref={ref}
-        className={cn("text-lg font-semibold", className)}
+        className={cn("text-lg font-semibold text-gray-800", className)}
         {...props}
       />
     )

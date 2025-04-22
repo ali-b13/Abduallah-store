@@ -132,7 +132,7 @@ const AdminProductsPage = () => {
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between mb-6 gap-4">
-        <h1 className="text-2xl md:text-3xl font-bold">المنتجات ({totalItems})</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-900 ">المنتجات ({totalItems})</h1>
         <div className="w-full md:w-auto flex flex-col-reverse md:flex-row gap-3">
           <Input
             placeholder="ابحث عن منتج بالاسم..."
@@ -185,7 +185,7 @@ const AdminProductsPage = () => {
                     <TableCell data-label="الصورة">
                       <Image
                         alt={product.name}
-                        src={ product.images.length?`${process.env.NEXT_PUBLIC_API_URL}/${product.images[0]}`: productImage}
+                        src={ product.images.length?`${product.images[0]}`: productImage}
                         width={60}
                         height={60}
                         className="rounded-md"

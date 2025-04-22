@@ -80,7 +80,7 @@ export default function CreateCategoryPage() {
     return (
         <div className="max-w-2xl mx-auto p-6">
             <div className="mb-8 text-right">
-                <h1 className="text-3xl font-bold text-slate-800">إنشاء فئة جديدة</h1>
+                <h1 className="text-3xl font-bold text-gray-900">إنشاء فئة جديدة</h1>
                 <p className="text-slate-600 mt-2">أضف فئة منتج جديدة إلى متجرك</p>
             </div>
 
@@ -88,29 +88,30 @@ export default function CreateCategoryPage() {
 
                 <div className="grid grid-cols-1 gap-6">
                 <div className="space-y-2">
-                <label className="block text-sm font-medium text-neutral-400">  اسم الفئة بالعربي</label>
+                <label className="block text-sm font-medium text-gray-700">  اسم الفئة بالعربي</label>
                     <Input
                         title="Category Name *"
                         value={form.name}
                         onChange={handleChange('name')}
                         required
-                        className="focus:ring-2 focus:ring-indigo-500"
+                        className="focus:ring-2 focus:ring-indigo-500 text-gray-700"
                     />
                     </div>
                 
                     <div className="space-y-2">
-                    <label className="block text-sm font-medium text-neutral-400">نوع الفئة بالانجليزي مثال : books</label>
+                    <label className="block text-sm font-medium text-gray-700">نوع الفئة بالانجليزي مثال : books</label>
                     <Input
                         title="Category Type "
                         value={form.type}
                         onChange={handleChange('type')}
                         required
-                        className="focus:ring-2 focus:ring-indigo-500"
+                        className="focus:ring-2 focus:ring-indigo-500 text-gray-700"
+                        
                     />
                     </div>
 
                     <div className="space-y-2">
-                        <label className="block text-sm font-medium text-neutral-400">صورة الفئة</label>
+                        <label className="block text-sm font-medium text-gray-700">صورة الفئة</label>
                         <label className="flex flex-col items-center justify-center w-full p-4 border-2 border-dashed rounded-lg cursor-pointer border-slate-300 hover:border-indigo-500 transition-colors">
                             <input
                                 type="file"
@@ -125,7 +126,7 @@ export default function CreateCategoryPage() {
                         </label>
                         {previewImage && (
                             <div className="mt-4">
-                                <p className="text-sm text-slate-600 mb-2"> معاينة:</p>
+                                <p className="text-sm text-gray-700 mb-2"> معاينة:</p>
                                 <Image 
                                 width={160}
                                 height={160}
@@ -142,7 +143,7 @@ export default function CreateCategoryPage() {
                         variant="outline"
                         onClick={() => router.back()}
                         disabled={!!modalStatus}
-                        className="px-6 py-2.5 border-slate-300 hover:bg-slate-50"
+                        className="px-6 py-2.5 border-slate-300 hover:bg-slate-50 text-gray-700"
                     >
                         إلغاء
                     </Button>
