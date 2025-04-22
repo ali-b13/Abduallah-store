@@ -23,7 +23,7 @@ export function HeroSection({ ads }: { ads: HeroAd[] }) {
           bulletClass: 'swiper-pagination-bullet',
           bulletActiveClass: '!bg-primary',
           renderBullet: (index, className) =>
-            `<span class="${className} bg-white/50 h-1.5 w-8 rounded-full transition-all duration-300"></span>`,
+            `<span class="${className} bg-primary/50 h-1.5 w-8 rounded-full transition-all duration-300"></span>`,
         }}
         autoplay={{ delay: 7000, disableOnInteraction: false }}
         loop
@@ -38,11 +38,11 @@ export function HeroSection({ ads }: { ads: HeroAd[] }) {
                 fill
                 sizes="100vw"
                 quality={100}
-                className="object-cover object-center transform group-hover:scale-105 transition-transform duration-[10s] ease-out"
+                className="object-contain object-center transform group-hover:scale-105 transition-transform duration-[10s] ease-out"
                 priority
               />
               
-              <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent">
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/40 to-transparent">
                 <div className="container flex h-full items-start  flex-col justify-center p-6 lg:p-8">
                   <div className="max-w-2xl space-y-8 relative z-10">
                     <h2 className="text-5xl font-bold leading-[1.1] md:text-7xl lg:text-8xl  font-almarai">
