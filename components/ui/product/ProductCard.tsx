@@ -28,7 +28,7 @@ export function ProductCard({ id, name, price, currency,discount, averageRating,
 
           {/* Category Badge */}
           {category && (
-            <span className="absolute top-3 left-3 px-3 py-1.5 bg-white/80 backdrop-blur-sm text-sm font-medium rounded-full shadow-sm">
+            <span className="absolute top-3 left-3 px-3 py-1.5 bg-white/80 backdrop-blur-sm text-sm font-medium rounded-full shadow-sm text-slate-700">
               {category.name}
             </span>
           )}
