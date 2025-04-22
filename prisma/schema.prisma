@@ -1,0 +1,151 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  mobile      String    @unique
+  password    String
+  ordersCount Int       @default(0)
+  lastLogin   DateTime?
+  isBlocked   Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+  isAdmin     Boolean   @default(false)
+  orders      Order[]
+  reviews     Review[]
+  Message     Message[]
+
+  StatusHistory StatusHistory[]
+  Logs          Logs[]
+}
+
+model Category {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String    @unique
+  href     String    @unique
+  type     String    @unique
+  image    String
+  products Product[]
+}
+
+model Product {
+  id            String      @id @default(auto()) @map("_id") @db.ObjectId
+  name          String
+  categoryId    String      @db.ObjectId
+  currencyId    String      @db.ObjectId
+  category      Category    @relation(fields: [categoryId], references: [id])
+  price         Float
+  salePrice     Float
+  description   String
+  currency      Currency    @relation(fields: [currencyId], references: [id], name: "CurrencyToProduct")
+  images        String[]
+  averageRating Float       @default(0)
+  reviews       Review[]
+  createdAt     DateTime    @default(now())
+  OrderItem     OrderItem[]
+  discount      Discount?
+}
+
+type Discount {
+  isVaild Boolean @default(false)
+  price   Float
+}
+
+model Currency {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String    @unique
+  code     String    @unique
+  products Product[] @relation("CurrencyToProduct")
+}
+
+model HeroAd {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  title         String?
+  image         String
+  link          String?
+  isAdvertising Boolean @default(false)
+  categoryId    String?
+}
+
+model Review {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String   @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  productId String   @db.ObjectId
+  product   Product  @relation(fields: [productId], references: [id])
+  rating    Float
+  comment   String
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String          @db.ObjectId
+  user          User            @relation(fields: [userId], references: [id])
+  customerName  String?
+  searchId      String?
+  products      OrderItem[]
+  address       String
+  status        OrderStatus     @default(pending)
+  createdAt     DateTime        @default(now())
+  statusHistory StatusHistory[]
+}
+
+model StatusHistory {
+  id        String      @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String      @db.ObjectId
+  order     Order       @relation(fields: [orderId], references: [id])
+  status    OrderStatus
+  message   String?
+  userId    String      @db.ObjectId
+  user      User        @relation(fields: [userId], references: [id])
+  timestamp DateTime    @default(now())
+}
+
+enum OrderStatus {
+  pending
+  confirmed
+  processing
+  delivered
+  declined
+}
+
+model OrderItem {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  orderId   String  @db.ObjectId
+  productId String  @db.ObjectId
+  quantity  Int
+  price     Float
+  product   Product @relation(fields: [productId], references: [id])
+  Order     Order   @relation(fields: [orderId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  mobile    String
+  content   String
+  userId    String?  @db.ObjectId
+  user      User?    @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Logs {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  actionType String 
+  entityType String 
+  entityId   String   @db.ObjectId
+  userId     String   @db.ObjectId
+  details    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id])
+}

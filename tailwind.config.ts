@@ -9,9 +9,13 @@ export default {
   theme: {
     extend: {
       colors: {
+          primary: "#e63946",
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily:{
+        amiri:['Amiri', 'cursive']
+       },
     },
   },
   plugins: [],

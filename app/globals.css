@@ -1,10 +1,14 @@
+@import url('https://fonts.cdnfonts.com/css/amiri');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+ 
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -18,4 +22,17 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Swiper overrides */
+.swiper-pagination-bullet {
+  @apply !bg-gray-300 !opacity-100;
+}
+
+.swiper-pagination-bullet-active {
+  @apply !bg-primary;
+}
+
+.swiper-pagination {
+  @apply !bottom-0;
 }
