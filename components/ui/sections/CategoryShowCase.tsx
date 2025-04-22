@@ -25,7 +25,7 @@ export function CategoryShowcase({ categories }: { categories: Category[] }) {
             >
               <div className="aspect-[4/3] relative">
                 <Image
-                  src={`${process.env.NEXT_PUBLIC_API_URL}/${category.image}`}
+                  src={category.image}
                   alt={category.name}
                   fill
                   className="object-cover transition-transform duration-500 group-hover:scale-110"

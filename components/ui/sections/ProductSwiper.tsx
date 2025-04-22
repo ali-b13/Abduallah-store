@@ -56,7 +56,7 @@ export function ProductSwiper({ title, products }: { title: string, products: Pr
                   <Link href={`/products/${product.id}`} className="block relative overflow-hidden">
                     <div className="aspect-square relative">
                       <Image
-                        src={`${process.env.NEXT_PUBLIC_API_URL}/${product.images[0]}`}
+                        src={product.images[0]}
                         alt={product.name}
                         fill
                         className="object-cover group-hover:scale-105 transition-transform duration-300"
