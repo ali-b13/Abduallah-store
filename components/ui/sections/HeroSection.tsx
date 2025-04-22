@@ -33,7 +33,7 @@ export function HeroSection({ ads }: { ads: HeroAd[] }) {
           <SwiperSlide key={ad.id} className="relative">
             <div className="relative h-[70vh] w-full">
               <Image
-                src={`${process.env.NEXT_PUBLIC_API_URL}/${ad.image}`}
+                src={ad.image}
                 alt={ad.title||"Banner"}
                 fill
                 sizes="100vw"
