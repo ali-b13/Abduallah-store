@@ -58,10 +58,10 @@ export const GET = async (req: NextRequest) => {
     ]);
 
     // Best sellers with fallbacks
-    let bestSellers: Product[] = await fetchBestSellers().catch(() => []);
+    const bestSellers: Product[] = await fetchBestSellers().catch(() => []);
 
     // Recommendations with fallbacks
-    let recommendedProducts: Product[] = userId ? 
+    const recommendedProducts: Product[] = userId ? 
       await fetchUserRecommendations(userId).catch(() => []) : 
       await fetchRandomProducts().catch(() => []);
 
