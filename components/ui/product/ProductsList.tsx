@@ -39,7 +39,8 @@ export default function ProductsList() {
         })
   
         // Create proper URL
-        const url = new URL(`/api/store-data/products`)
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+        const url = new URL(`${apiUrl}/api/store-data/products`)
         url.search = params.toString()
   
         const response = await fetch(url.toString(), {
