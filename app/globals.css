@@ -5,7 +5,7 @@
  
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #ffffff;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -13,7 +13,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #ededed;
     --foreground: #ededed;
   }
 }
@@ -35,4 +35,14 @@ body {
 
 .swiper-pagination {
   @apply !bottom-0;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
 }

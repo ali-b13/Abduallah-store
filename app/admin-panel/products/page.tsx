@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/Input';
 import Image from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../components/table';
 import ConfirmationModal, { ModalStatus } from '../components/ConfirmModal';
-import productImage from "@/public/product-img.png"
+import productImage from "@/public/product-img.jpg"
 interface Discount {
   isValid: boolean;
   price: number;

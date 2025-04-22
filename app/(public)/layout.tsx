@@ -5,8 +5,8 @@ import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/context/cartContext";
 import { Toaster } from 'react-hot-toast';
 export const metadata: Metadata = {
-  title: "Abduallah Store",
-  description: "Store that sells and delivers items to your home",
+  title: "متجر عبدالله",
+  description: "متجر يبيع ويوصل المنتجات إلى منزلك",
 };
 
 export default function RootLayout({

@@ -40,7 +40,7 @@ export const AuthModal = ({ isOpen, onClose, title, children }: ModalProps) => {
             <div className="bg-white rounded-t-2xl md:rounded-2xl shadow-xl h-full flex flex-col">
               {/* Header */}
               <div className="flex justify-between items-center p-6 border-b shrink-0">
-                <h2 className="text-2xl font-bold">{title}</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
                 <button
                   onClick={onClose}
                   className="p-2 hover:bg-gray-100 rounded-full transition-colors"

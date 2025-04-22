@@ -49,7 +49,7 @@ export function Navbar() {
             {session?.user.isAdmin && (
               <Link 
                 href="/admin-panel/dashboard"
-                className="hover:text-primary transition-colors font-medium"
+                className=" text-gray-700 hover:text-primary transition-colors font-medium"
               >
                 لوحة التحكم
               </Link>
@@ -80,7 +80,7 @@ export function Navbar() {
               className="p-2 hover:text-primary transition-colors relative"
               onClick={() => setCartOpen(true)}
             >
-              <ShoppingCart className="h-6 w-6" />
+              <ShoppingCart className="h-6 w-6 text-gray-800" />
               {cart.length > 0 && (
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
                   {cart.length}
@@ -92,7 +92,7 @@ export function Navbar() {
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 hover:text-primary transition-colors"
             >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {isOpen ? <X className="h-6 w-6 text-gray-800" /> : <Menu className="h-6 w-6 text-gray-800" />}
             </button>
           </div>
         </div>

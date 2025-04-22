@@ -31,17 +31,20 @@ const DashboardPage =  () => {
     getDashboardData()
    },[])
   return (
-    <div className="p-6 space-y-8">
-      <h1 className="text-3xl font-bold text-gray-800 ">لوحة التحكم الإدارية</h1>
-      
-      <Suspense fallback={<StatsGridSkeleton />}>
-        <StatsGrid data={statsData} />
-      </Suspense>
+    <div className=" sm:space-y-6">
+  <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6">لوحة التحكم الإدارية</h1>
+  
+  <Suspense fallback={<StatsGridSkeleton />}>
+    <StatsGrid data={statsData} />
+  </Suspense>
 
-      <Suspense fallback={<SalesChartSkeleton />}>
-        <SalesChart data={salesData} />
-      </Suspense>
-    </div>
+  <Suspense fallback={<SalesChartSkeleton />}>
+     <div className='w-full relative'>
+     <h3 className="text-center text-gray-700 font-bold my-4 ">أداء المبيعات السنوي</h3>
+     <SalesChart data={salesData} />
+     </div>
+  </Suspense>
+</div>
   );
 };
 

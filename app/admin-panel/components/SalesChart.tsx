@@ -72,10 +72,9 @@ function SalesChart({ data }: { data: SalesDataItem[] }) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-white p-6 rounded-xl shadow-sm"
+      className="bg-white  rounded-xl shadow-sm"
     >
-      <h3 className="text-lg font-semibold mb-4 text-right">أداء المبيعات السنوي</h3>
-      <div className="h-96">
+      <div className="h-64 xs:h-80 sm:h-96">
         <Bar 
           data={chartData}
           options={{
@@ -83,11 +82,11 @@ function SalesChart({ data }: { data: SalesDataItem[] }) {
             maintainAspectRatio: false,
             plugins: {
               legend: {
-                rtl: true,
                 position: 'top',
                 labels: {
                   font: {
-                    family: 'Tajawal'
+                    family: 'Tajawal',
+                    size: window.innerWidth < 640 ? 10 : 12
                   }
                 }
               }
@@ -96,7 +95,8 @@ function SalesChart({ data }: { data: SalesDataItem[] }) {
               x: {
                 ticks: {
                   font: {
-                    family: 'Tajawal'
+                    family: 'Tajawal',
+                    size:12
                   }
                 }
               },
@@ -104,16 +104,21 @@ function SalesChart({ data }: { data: SalesDataItem[] }) {
                 beginAtZero: true,
                 ticks: {
                   font: {
-                    family: 'Tajawal'
+                    family: 'Tajawal',
+                    size:12
+                  },
+                  callback: (value) => {
+                    if (typeof value === 'number') {
+                      return window.innerWidth < 640 ? 
+                        `$${value / 1000}k` : 
+                        value.toLocaleString('ar-SA');
+                    }
+                    return value;
                   }
                 }
               }
             },
-            layout: {
-              padding: {
-                right: 20
-              }
-            }
+            
           }}
         />
       </div>
