@@ -104,6 +104,7 @@ async function fetchBestSellers(): Promise<Product[]> {
       .map(id => products.find(p => p.id === id))
       .filter(Boolean) as Product[];
   } catch (error) {
+    console.log(error)
     return await fallbackProducts();
   }
 }
@@ -139,6 +140,7 @@ async function fetchUserRecommendations(userId: string): Promise<Product[]> {
       include: { currency: true }
     });
   } catch (error) {
+    console.log(error)
     return await fetchRandomProducts();
   }
 }
@@ -153,6 +155,7 @@ async function fetchRandomProducts(): Promise<Product[]> {
       include: { currency: true }
     });
   } catch (error) {
+    console.log(error)
     return [];
   }
 }
@@ -165,6 +168,7 @@ async function fallbackProducts(): Promise<Product[]> {
       include: { currency: true }
     });
   } catch (error) {
+    console.log(error)
     return [];
   }
 }
