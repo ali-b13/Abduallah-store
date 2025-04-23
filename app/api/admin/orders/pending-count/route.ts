@@ -1,5 +1,5 @@
 // pages/api/admin/orders/pending-count.ts
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiResponse } from 'next';
 import prisma from '@/lib/database/prisma';
 import { authenticateUser } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
