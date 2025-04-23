@@ -202,7 +202,7 @@ export default function OrdersPage() {
 
                 {/* Order Products */}
                 <div className="p-6">
-                  <h3 className="text-xl font-bold mb-4 font-cairo">
+                  <h3 className="text-xl font-bold mb-4 font-cairo text-gray-800">
                     المنتجات المطلوبة:
                   </h3>
                   <div className="space-y-4">
@@ -211,7 +211,7 @@ export default function OrdersPage() {
                         key={index}
                         className="flex justify-between items-center py-2 border-b border-gray-200"
                       >
-                        <span className="text-base">{item.product.name}</span>
+                        <span className="text-base text-gray-700">{item.product.name}</span>
                         <div className="flex items-center space-x-4">
                           <span className="text-gray-600">x{item.quantity}</span>
                           <span className="text-indigo-600 font-semibold">
@@ -234,7 +234,7 @@ export default function OrdersPage() {
 
                   {/* Order Totals */}
                   <div className="flex justify-between items-center mt-6 pt-4 border-t border-gray-200">
-                    <span className="font-bold text-lg">المجموع الكلي:</span>
+                    <span className="font-bold text-lg text-gray-700">المجموع الكلي:</span>
                     <div className="flex flex-col text-lg font-bold text-indigo-600">
                       {order.totals.YER > 0 && (
                         <span>{order.totals.YER} ريال يمني</span>
@@ -250,7 +250,7 @@ export default function OrdersPage() {
              {/* Order History Timeline */}
 {order.statusHistory && order.statusHistory.length > 0 && (
   <div className="p-6 border-t border-gray-200">
-    <h3 className="text-xl font-bold mb-6 font-cairo">تتبع حالة الطلب</h3>
+    <h3 className="text-xl font-bold mb-6 font-cairo text-gray-800">تتبع حالة الطلب</h3>
     <div className="relative">
       {/* Vertical timeline line */}
       <div className="absolute right-6 top-4 bottom-4 w-0.5 bg-gray-200"></div>

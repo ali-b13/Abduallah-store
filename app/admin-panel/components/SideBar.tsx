@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Package, Users, Bell, Settings, LogOut, Menu, X } from "lucide-react";
@@ -9,8 +9,21 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const AdminSidebar = () => {
   const pathname = usePathname();
-  
   const [isOpen, setIsOpen] = useState(false);
+  const [pendingOrdersCount, setPendingOrdersCount] = useState(0);
+
+  useEffect(() => {
+    const fetchPendingOrders = async () => {
+      try {
+        const response = await fetch('/api/admin/orders/pending-count');
+        const data = await response.json();
+        if (response.ok) setPendingOrdersCount(data.count);
+      } catch (error) {
+        console.error('Error fetching pending orders:', error);
+      }
+    };
+    fetchPendingOrders();
+  }, []);
 
   const menuItems = [
     {
@@ -22,6 +35,7 @@ const AdminSidebar = () => {
       name: "الطلبات",
       href: "/admin-panel/orders",
       icon: Package,
+      badge: pendingOrdersCount > 0 ? pendingOrdersCount : undefined,
     },
     {
       name: "المنتجات",
@@ -50,6 +64,11 @@ const AdminSidebar = () => {
     },
   ];
 
+  const handleOrdersClick = () => {
+    setPendingOrdersCount(0);
+    setIsOpen(false);
+  };
+
   return (
     <>
       {/* Mobile Toggle Button */}
@@ -72,15 +91,23 @@ const AdminSidebar = () => {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  onClick={item.name === "الطلبات" ? handleOrdersClick : undefined}
                   className={cn(
-                    "flex items-center gap-3 rounded-lg px-4 py-3 transition-all",
+                    "flex items-center gap-3 rounded-lg px-4 py-3",
                     pathname === item.href
                       ? "bg-primary/10 text-primary"
                       : "hover:bg-gray-700/50 hover:text-primary"
                   )}
                 >
                   <item.icon className="h-5 w-5" />
-                  <span className="text-sm font-medium">{item.name}</span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium">{item.name}</span>
+                    {item.badge && item.badge > 0 && (
+                      <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                        {item.badge}
+                      </span>
+                    )}
+                  </div>
                 </Link>
               </li>
             ))}
@@ -118,16 +145,23 @@ const AdminSidebar = () => {
                   <li key={item.href}>
                     <Link
                       href={item.href}
+                      onClick={item.name === "الطلبات" ? handleOrdersClick : undefined}
                       className={cn(
-                        "flex items-center gap-3 rounded-lg px-4 py-3 transition-all",
+                        "flex items-center gap-3 rounded-lg px-4 py-3",
                         pathname === item.href
                           ? "bg-primary/10 text-primary"
                           : "hover:bg-gray-700/50 hover:text-primary"
                       )}
-                      onClick={() => setIsOpen(false)}
                     >
                       <item.icon className="h-5 w-5" />
-                      <span className="text-sm font-medium">{item.name}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-medium">{item.name}</span>
+                        {item.badge && item.badge > 0 && (
+                          <span className="bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
+                            {item.badge}
+                          </span>
+                        )}
+                      </div>
                     </Link>
                   </li>
                 ))}

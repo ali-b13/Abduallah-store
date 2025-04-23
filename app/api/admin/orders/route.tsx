@@ -58,7 +58,7 @@ export const GET = async (req: NextRequest) => {
         prisma.order.count({ where }),
         prisma.order.findMany({
           where: { status: "pending" },
-          orderBy: { createdAt: "desc" },
+          orderBy: { createdAt: "asc" },
           take: 5,
           include: {
             products: {

@@ -194,7 +194,7 @@ const AddressForm = ({ address, setAddress, handlePlaceOrder }:AddressForm) => (
           <textarea
             value={address}
             onChange={(e) => setAddress(e.target.value)}
-            className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right"
+            className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right text-gray-800"
             rows={4}
             placeholder="الرجاء إدخال العنوان الكامل للتسليم..."
             required

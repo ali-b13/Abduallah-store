@@ -82,7 +82,7 @@ const Cart = ({ cartOpen, setCartOpen }: CartProps) => {
               ))}
 
               {/* قسم السعر الإجمالي */}
-              <div className="flex justify-between text-xl font-bold border-t pt-5 mt-5">
+              <div className="flex justify-between text-xl font-bold border-t pt-5 mt-5 text-slate-700">
                 <span>الإجمالي:</span>
                 <span>{totalPrice} ريال</span>
               </div>
