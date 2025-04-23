@@ -105,7 +105,7 @@ const SingleOrderPage = () => {
 
   if (loading) return <OrdersSkeleton/>;
   if (error) return <div className="p-6 text-red-500 text-center ">{error}</div>;
-  if (!order) return <div className="p-6 text-center text-4xl">الطلب غير موجود</div>;
+  if (!order) return <div className="p-6 text-center text-4xl text-slate-800">الطلب غير موجود</div>;
 
   return (
     <div className="p-6 max-w-6xl mx-auto">
@@ -122,15 +122,15 @@ const SingleOrderPage = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <p className="font-medium">{order.customerName}</p>
+              <p className="font-medium text-slate-800">{order.customerName}</p>
               <p className="text-sm text-gray-600">{order.phone}</p>
             </div>
             <div>
-              <p className="text-sm font-medium">عنوان التوصيل</p>
+              <p className="text-sm font-medium text-slate-800">عنوان التوصيل</p>
               <p className="text-sm text-gray-600">{order.address}</p>
             </div>
             <div>
-              <p className="text-sm font-medium">حالة الطلب</p>
+              <p className="text-sm font-medium text-slate-800 mb-2">حالة الطلب</p>
               <OrderStatusBadge status={order.status} />
             </div>
           </CardContent>
@@ -150,15 +150,15 @@ const SingleOrderPage = () => {
                     className="flex justify-between items-center border-b pb-2"
                   >
                     <div>
-                      <p className="font-medium">{item.product.name}</p>
-                      <p className="text-sm text-gray-600">الكمية: {item.quantity}</p>
+                      <p className="font-medium text-slate-800">{item.product.name}</p>
+                      <p className="text-sm text-slate-800">الكمية: {item.quantity}</p>
                     </div>
-                    <p className="font-medium">
+                    <p className="font-medium text-slate-700">
                       SAR {(item.product.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 ))}
-                <div className="flex justify-between items-center pt-4">
+                <div className="flex justify-between items-center pt-4 text-slate-700">
                   <div>
                     <p className="font-medium">المجموع (SAR)</p>
                     <p className="font-medium text-lg">
@@ -279,7 +279,7 @@ const SingleOrderPage = () => {
                       تسليم الطلب
                     </Button>
                   )}
-                  <Button variant="outline" onClick={handleSendMessage}>
+                  <Button className='text-slate-900 bg-green-500' variant="outline" onClick={handleSendMessage}>
                     <MessageSquareText className="w-4 h-4 mr-2" />
                     إرسال رسالة واتساب
                   </Button>
