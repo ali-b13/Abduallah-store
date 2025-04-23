@@ -43,7 +43,7 @@ interface AllOrdersProps {
           <select
             value={pagination.perPage}
             onChange={(e) => onPerPageChange(e.target.value)}
-            className="border rounded p-1 text-sm"
+            className="border rounded p-1 text-sm text-slate-800"
           >
             {[10, 20, 50].map((value) => (
               <option key={value} value={value}>{value}</option>

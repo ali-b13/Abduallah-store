@@ -131,7 +131,7 @@ const Register = ({ onSwitchToLogin }: RegisterProps) => {
                 type="text"
                 {...register("name")}
                 placeholder="الاسم كامل"
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition text-slate-700"
               />
               {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
   
@@ -139,7 +139,7 @@ const Register = ({ onSwitchToLogin }: RegisterProps) => {
                 type="number"
                 {...register("mobile")}
                 placeholder="رقم الهاتف : مثال (715000001)"
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+                className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
               />
               {errors.mobile && <span className='text-red-500'>{errors.mobile.message}</span>}
   
@@ -147,7 +147,7 @@ const Register = ({ onSwitchToLogin }: RegisterProps) => {
                 type="password"
                 {...register("password")}
                 placeholder="كلمه المرور"
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+                className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
               />
               {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
             </>
@@ -168,7 +168,7 @@ const Register = ({ onSwitchToLogin }: RegisterProps) => {
                 type="text"
                 {...register("otp")}
                 placeholder="رمز التحقق"
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+                className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
               />
               {errors.otp && <span className='text-red-500'>{errors.otp.message}</span>}
             </>

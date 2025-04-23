@@ -138,7 +138,7 @@ const AdminProductsPage = () => {
             placeholder="ابحث عن منتج بالاسم..."
             value={searchQuery}
             onChange={handleSearchChange}
-            className="w-full md:w-64"
+            className="w-full md:w-64 text-slate-700"
           />
           <Button variant="default" onClick={handleAddProduct} className="w-full md:w-auto">
             <Plus className="w-4 h-4 mr-2" />

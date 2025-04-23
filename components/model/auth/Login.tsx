@@ -70,7 +70,7 @@ const Login = ({ onSwitchToRegister, onClose }: LoginProps) => {
           type="number"
           {...register("mobile")}
           placeholder="رقم الهاتف : مثال (715000001)"
-          className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+          className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
           disabled={isLoading}
         />
         {errors.mobile && <span className='text-red-500'>{errors.mobile.message}</span>}
@@ -79,7 +79,7 @@ const Login = ({ onSwitchToRegister, onClose }: LoginProps) => {
           type="password"
           {...register("password")}
           placeholder="كلمه المرور"
-          className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+          className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
           disabled={isLoading}
         />
         {errors.password && <span className='text-red-500'>{errors.password.message}</span>}

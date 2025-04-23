@@ -173,7 +173,7 @@ export default function ContactPage() {
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right"
+                className="text-slate-700 w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right"
                 placeholder="أدخل اسمك الكامل"
                 required
               />
@@ -186,7 +186,7 @@ export default function ContactPage() {
             name="mobile"
             value={formData.mobile}
             onChange={handleChange}
-            className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right"
+            className="text-slate-700 w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right"
             placeholder="777123456"
             pattern="^(?:00967|967|\+967|0)?7[0-9]{8}$"
             required
@@ -202,7 +202,7 @@ export default function ContactPage() {
                 rows={5}
                 value={formData.message}
                 onChange={handleChange}
-                className="w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right"
+                className=" text-slate-700 w-full px-5 py-4 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-red-100 focus:border-red-500 text-right"
                 placeholder="أدخل رسالتك هنا..."
                 required
               ></textarea>

@@ -151,7 +151,7 @@ const AdminUsersPage = () => {
           placeholder="ابحث بالاسم أو الجوال..."
           value={searchQuery}
           onChange={handleSearchChange}
-          className="w-full md:w-64"
+          className="w-full md:w-64 text-slate-700"
         />
       </div>
 
