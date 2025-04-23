@@ -1,10 +1,9 @@
 // pages/api/admin/orders/pending-count.ts
-import { NextApiResponse } from 'next';
 import prisma from '@/lib/database/prisma';
 import { authenticateUser } from '@/lib/auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-export const  GET=async(req: NextRequest, res: NextApiResponse)=> {
+export const  GET=async(req: NextRequest)=> {
     const session = await authenticateUser(req);
         if (!session || !session.user?.isAdmin) {
           return new Response("Unauthorized", { status: 403 });
