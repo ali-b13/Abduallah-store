@@ -14,53 +14,17 @@ interface RegisterProps {
 
 const Register = ({ onSwitchToLogin }: RegisterProps) => {
   const [serverError, setServerError] = useState('');
-  const [otpSent, setOtpSent] = useState(false);
-  const [email, setMobile] = useState('');
   const [loading, setLoading] = useState(false);
-  const [countdown, setCountdown] = useState(0);
   const [isSuccess, setIsSuccess] = useState(false); 
 
-  const { register, handleSubmit, formState: { errors }, trigger } = useForm<FormData>({
+  const { 
+    register, 
+    handleSubmit, 
+    formState: { errors }, 
+    trigger 
+  } = useForm<FormData>({
     resolver: zodResolver(signUpSchema)
   });
-
-  const handleResendOTP = async () => {
-    setLoading(true);
-    try {
-      const response = await fetch('/api/auth/signup', {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, name: '', password: '' })
-      });
-      
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.error || 'Request failed');
-      }
-
-      if (result.requiresOTP) {
-        setOtpSent(true);
-        setCountdown(30);
-        startCountdown();
-      } else if (result.success) {
-        setIsSuccess(true); // Set success state instead of closing
-      }
-    } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'حدث خطأ غير متوقع';
-
-      setServerError(errorMessage);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const startCountdown = () => {
-    const interval = setInterval(() => {
-      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => clearInterval(interval);
-  };
 
   const onSubmit = async (data: FormData) => {
     setLoading(true);
@@ -77,22 +41,22 @@ const Register = ({ onSwitchToLogin }: RegisterProps) => {
       const response = await fetch('/api/auth/signup', {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(otpSent ? { ...data, otp: data.otp } : data)
+        body: JSON.stringify({
+          name: data.name,
+          confirmPassword:data.confirmPassword,
+          password: data.password,
+          mobile:data.mobile
+        })
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Request failed');
+        throw new Error(result.error || 'Registration failed');
       }
 
-      if (result.requiresOTP) {
-        setOtpSent(true);
-        setMobile(data.mobile);
-        setCountdown(30);
-        startCountdown();
-      } else if (result.success) {
-        setIsSuccess(true)
+      if (result.success) {
+        setIsSuccess(true);
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'حدث خطأ غير متوقع';
@@ -104,9 +68,8 @@ const Register = ({ onSwitchToLogin }: RegisterProps) => {
 
   return (
     <>
-    {isSuccess? (
-       
-       <div className="text-center p-6 space-y-4">
+      {isSuccess ? (
+        <div className="text-center p-6 space-y-4">
           <div className="text-green-600">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -120,85 +83,67 @@ const Register = ({ onSwitchToLogin }: RegisterProps) => {
             متابعة
           </Button>
         </div>
-        )
-        :
-        (
+      ) : (
+        <div  className='flex flex-col gap-2 items-center'>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div className="space-y-4">
-          {!otpSent ? (
-            <>
-              <input
-                type="text"
-                {...register("name")}
-                placeholder="الاسم كامل"
-                className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition text-slate-700"
-              />
-              {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
-  
-              <input
-                type="number"
-                {...register("mobile")}
-                placeholder="رقم الهاتف : مثال (715000001)"
-                className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
-              />
-              {errors.mobile && <span className='text-red-500'>{errors.mobile.message}</span>}
-  
-              <input
-                type="password"
-                {...register("password")}
-                placeholder="كلمه المرور"
-                className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
-              />
-              {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
-            </>
-          ) : (
-            <>
-              <div className="text-center space-y-2">
-              <p>تم إرسال رمز التحقق إلى {email}</p>
-                <button
-                  type="button"
-                  onClick={handleResendOTP}
-                  disabled={countdown > 0 || loading}
-                  className="text-blue-600 text-sm disabled:text-gray-400"
-                >
-                  {countdown > 0 ?` إعادة الإرسال (${countdown})` : 'إعادة إرسال الرمز'}
-                </button>
-              </div>
-              <input
-                type="text"
-                {...register("otp")}
-                placeholder="رمز التحقق"
-                className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
-              />
-              {errors.otp && <span className='text-red-500'>{errors.otp.message}</span>}
-            </>
-          )}
-  
-          {serverError && <span className='text-red-500 mt-4 block text-center'>{serverError}</span>}
+          <div className="space-y-4">
+            <input
+              type="text"
+              {...register("name")}
+              placeholder="الاسم كامل"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition text-slate-700"
+            />
+            {errors.name && <span className='text-red-500'>{errors.name.message}</span>}
+            <input
+              type="text"
+              {...register("mobile")}
+              placeholder="رقم الهاتف"
+              className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition text-slate-700"
+            />
+            {errors.mobile && <span className='text-red-500'>{errors.mobile.message}</span>}
+
+
+            <input
+              type="password"
+              {...register("password")}
+              placeholder="كلمه المرور"
+              className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+            />
+            {errors.password && <span className='text-red-500'>{errors.password.message}</span>}
+
+            <input
+              type="password"
+              {...register("confirmPassword")}
+              placeholder="تأكيد كلمة المرور"
+              className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
+            />
+            {errors.confirmPassword && <span className='text-red-500'>{errors.confirmPassword.message}</span>}
+
+            {serverError && <span className='text-red-500 mt-4 block text-center'>{serverError}</span>}
+          </div>
+
+          <Button 
+            type="submit" 
+            className="w-full bg-primary hover:bg-red-900 text-white disabled:opacity-50"
+            disabled={loading}
+          >
+            {loading ? 'جاري التحميل...' : 'انشاء حساب جديد'}
+          </Button>
+          
+          <p className="text-center text-sm text-gray-500">
+            لديك حساب مسبقا?{' '}
+            <button
+              type="button"
+              onClick={onSwitchToLogin}
+              className="text-blue-600 hover:underline font-medium"
+              disabled={loading}
+            >
+              سجل الدخول
+            </button>
+          </p>
+        </form>
         </div>
-  
-        <Button 
-          type="submit" 
-          className="w-full bg-primary hover:bg-red-900 text-white disabled:opacity-50"
-          disabled={loading}
-        >
-          {loading ? 'جاري التحميل...' : (otpSent ? 'تحقق' : 'انشاء حساب جديد')}
-        </Button>
-        <p className="text-center text-sm text-gray-500">
-          لديك حساب مسبقا?{' '}
-        <button
-          type="button"
-          onClick={onSwitchToLogin}
-          className="text-blue-600 hover:underline font-medium"
-          disabled={loading}
-        >
-          سجل الدخول
-        </button>
-      </p>
-  
-      </form>
-    )
-  }
+      )}
     </>
   );
 };

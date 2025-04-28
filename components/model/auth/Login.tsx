@@ -64,12 +64,13 @@ const Login = ({ onSwitchToRegister, onClose }: LoginProps) => {
   }
 
   return (
+    <div className='flex flex-col gap-2 items-center'>
     <form onSubmit={handleSubmit(handleLogin)} className="space-y-6">
       <div className="space-y-4">
         <input
           type="number"
           {...register("mobile")}
-          placeholder="رقم الهاتف : مثال (715000001)"
+          placeholder="ادخل رقم الهاتف"
           className="text-slate-700 w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition"
           disabled={isLoading}
         />
@@ -112,6 +113,8 @@ const Login = ({ onSwitchToRegister, onClose }: LoginProps) => {
         </button>
       </p>
     </form>
+
+    </div>
   );
 };
 

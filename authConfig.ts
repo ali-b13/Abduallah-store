@@ -19,37 +19,21 @@ export const authConfig ={
         mobile: { label: "Mobile Number", type: "text" },
         password: { label: "Password", type: "password" }
       },
-      async authorize(credentials) {
+      async authorize(credentials:any) {  // Add req parameter even if unused
         try {
           const { mobile, password } = await loginSchema.parseAsync(credentials);
+          
           const user = await prisma.user.findUnique({
-            where: { mobile },
-            select: {
-              id: true,
-              isBlocked:true,
-              name: true,
-              password: true,
-              mobile: true,
-              isAdmin: true
-            }
-          });
-
+            where: { mobile }});
+      
           if (!user) return null;
+          
           const isValid = await bcrypt.compare(password, user.password);
-          if (!isValid) return null;
-          if(user.isBlocked){
-            return null
-          }
-          await prisma.user.update({
-            where: { id: user.id },
-            data: { lastLogin: new Date() }
-          });
-          return {
-            id: user.id,
-            name: user.name,
-            mobile: user.mobile,
-            isAdmin: user.isAdmin  // Ensure this is returned
-          };
+          console.log(isValid,'vaild')
+          if (!isValid || user.isBlocked) return null;
+      
+          return user
+          
         } catch (error) {
           console.error("Authentication error:", error);
           return null;
@@ -65,6 +49,7 @@ export const authConfig ={
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.mobile=user.mobile
         token.isAdmin = user.isAdmin;  // Add isAdmin to JWT
       }
       return token;
@@ -74,6 +59,7 @@ export const authConfig ={
         session.user = {
           ...session.user,
           id: token.id,
+          mobile:token.mobile,
           isAdmin: token.isAdmin  // Add isAdmin to session
         };
       }
