@@ -23,6 +23,7 @@ export function Navbar() {
     { name: 'التسوق', href: '/products' },
     { name: 'طلباتي', href: '/orders' },
     { name: 'تواصل معنا', href: '/contact-us' },
+    { name: 'عن المتجر', href: '/about' },
   ]
 
   if (status === "loading") return <SkeletonNavBar />

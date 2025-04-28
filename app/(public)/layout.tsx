@@ -4,6 +4,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { CartProvider } from "@/context/cartContext";
 import { Toaster } from 'react-hot-toast';
+import { Analytics } from "@vercel/analytics/react"
 export const metadata: Metadata = {
   title: "متجر عبدالله",
   description: "متجر يبيع ويوصل المنتجات إلى منزلك",
@@ -22,6 +23,7 @@ export default function RootLayout({
         <CartProvider>
          
         <Navbar/>
+        <Analytics/>
         {children}
         <Toaster position="top-center" />
         <Footer/>

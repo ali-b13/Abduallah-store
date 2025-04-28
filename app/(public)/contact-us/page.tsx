@@ -104,7 +104,7 @@ export default function ContactPage() {
           transition={{ duration: 0.5 }}
           className="mb-16 relative overflow-hidden rounded-3xl shadow-2xl group"
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-500 opacity-95 z-0" />
+          <div className="absolute inset-0 bg-gradient-to-r from-red-600 to-orange-400 opacity-95 z-0" />
           <div className="relative z-10 py-20 px-8 text-center">
             <h1 className="text-5xl font-black text-white mb-6 drop-shadow-xl font-cairo">
               تواصل معنا

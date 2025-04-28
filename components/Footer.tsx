@@ -18,13 +18,20 @@ export function Footer() {
           <div>
             <h4 className="text-lg font-semibold text-white mb-4">روابط سريعة</h4>
             <ul className="space-y-2">
-              {['من نحن', 'اتصل بنا', 'الأسئلة المتكررة', 'سياسة الشحن'].map((link) => (
-                <li key={link}>
-                  <a href="/contact-us" className="hover:text-primary transition-colors">
-                    {link}
-                  </a>
-                </li>
-              ))}
+                      {[
+            { name: 'اتصل بنا', path: '/contact-us' },
+            { name: 'الأسئلة المتكررة', path: '/about' },
+            { name: 'سياسة الشحن', path: '/about' }
+          ].map((link) => (
+            <li key={link.name}>
+              <a 
+                href={link.path} 
+                className="hover:text-primary transition-colors"
+              >
+                {link.name}
+              </a>
+            </li>
+          ))}
             </ul>
           </div>
 
