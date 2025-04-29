@@ -2,9 +2,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticateUser } from "@/lib/auth";
 import prisma from "@/lib/database/prisma";
-import { randomUUID } from "crypto";
-import path from "path";
-import { writeFile, unlink } from "fs/promises";
 
 export async function GET(
   req: NextRequest,
@@ -29,57 +26,71 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context:{ params:Promise<{ categoryId: string }>}
+  context: { params: Promise<{ categoryId: string }> }
 ) {
-    const { params } =   context;
+  const { params } = context;
   const session = await authenticateUser(req);
   if (!session?.user?.isAdmin) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 403 });
+    return NextResponse.json({ error: "غير مصرح" }, { status: 403 });
   }
-  try {
-    const formData = await req.formData();
-    const name = formData.get("name") as string;
-    const type = formData.get("type") as string;
-    const newImageFile = formData.get("image") as File | null;
 
-    if (!name || !type) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+  try {
+    const { name, type, image } = await req.json();
+    const categoryId = (await params).categoryId;
+
+    // Validate required fields
+    if (!name || !type || !image) {
+      return NextResponse.json(
+        { error: "جميع الحقول مطلوبة" },
+        { status: 400 }
+      );
+    }
+
+    // Validate image URL format
+    if (typeof image !== "string" || !image.startsWith("http")) {
+      return NextResponse.json(
+        { error: "صورة غير صالحة" },
+        { status: 400 }
+      );
     }
 
     // Fetch existing category
-    const existing = await prisma.category.findUnique({ where: { id: (await params).categoryId } });
-    if (!existing) {
-      return NextResponse.json({ error: "Not found" }, { status: 404 });
-    }
-
-    let imagePath = existing.image;
-    if (newImageFile) {
-      // Delete old image
-      const oldFull = path.join(process.cwd(), "public", existing.image);
-      await unlink(oldFull).catch(() => {});
-
-      // Save new image
-      const buffer = Buffer.from(await newImageFile.arrayBuffer());
-      const ext = path.extname(newImageFile.name);
-      const filename = `${randomUUID()}${ext}`;
-      const uploadPath = path.join(process.cwd(), "public", "categories", filename);
-      await writeFile(uploadPath, buffer);
-
-      imagePath = `/categories/${filename}`;
-    }
-
-    const updated = await prisma.category.update({
-      where: { id: (await params).categoryId },
-      data: { name, href:`/categories/${type}`, type:type, image: imagePath },
+    const existingCategory = await prisma.category.findUnique({
+      where: { id: categoryId }
     });
 
-    return NextResponse.json({ category: updated });
+    if (!existingCategory) {
+      return NextResponse.json(
+        { error: "الفئة غير موجودة" },
+        { status: 404 }
+      );
+    }
+
+
+    // Update category with new data
+    const updatedCategory = await prisma.category.update({
+      where: { id: categoryId },
+      data: {
+        name,
+        type,
+        href: `/categories/${type}`,
+        image
+      }
+    });
+
+    return NextResponse.json(
+      { category: updatedCategory },
+      { status: 200 }
+    );
+
   } catch (error) {
     console.error("PUT update category error:", error);
-    return NextResponse.json({ error: "Could not update category" }, { status: 500 });
+    return NextResponse.json(
+      { error: "فشل في تحديث الفئة" },
+      { status: 500 }
+    );
   }
 }
-
 export async function DELETE(
   req: NextRequest,
   context:{ params:Promise<{ categoryId: string }>}
@@ -100,10 +111,7 @@ export async function DELETE(
         where: { categoryId: existing.id }
       });
     }
-    if (existing?.image) {
-      const fullPath = path.join(process.cwd(), "public", existing.image);
-      await unlink(fullPath).catch(() => {});
-    }
+   
     await prisma.category.delete({ where: { id: (await params).categoryId } });
     return NextResponse.json({ message: "Deleted successfully" });
   } catch (error) {

@@ -2,9 +2,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticateUser } from "@/lib/auth";
 import prisma from "@/lib/database/prisma";
-import { randomUUID } from "crypto";
-import path from "path";
-import { writeFile } from "fs/promises";
 
 export async function GET(req: NextRequest) {
   const session = await authenticateUser(req);
@@ -19,7 +16,6 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Could not fetch categories" }, { status: 500 });
   }
 }
-
 export async function POST(req: NextRequest) {
   const session = await authenticateUser(req);
   if (!session?.user?.isAdmin) {
@@ -27,36 +23,49 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const formData = await req.formData();
-    const name = formData.get("name") as string;
-    const type = formData.get("type") as string;
-    const imageFile = formData.get("image") as File | null;
+    // Parse JSON body instead of form data
+    const { name, type, image } = await req.json();
 
-    if (!name  || !type || !imageFile) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
+    // Validate required fields
+    if (!name || !type || !image) {
+      return NextResponse.json(
+        { error: "جميع الحقول مطلوبة" },
+        { status: 400 }
+      );
     }
 
-    // Save image to public/uploads
-    const buffer = Buffer.from(await imageFile.arrayBuffer());
-    const ext = path.extname(imageFile.name);
-    const filename = `${randomUUID()}${ext}`;
-    const uploadDir = path.join(process.cwd(), "public", "categories");
-    const uploadPath = path.join(uploadDir, filename);
+    // Validate image URL format
+    if (typeof image !== "string" || !image.startsWith("http")) {
+      return NextResponse.json(
+        { error: "صورة غير صالحة" },
+        { status: 400 }
+      );
+    }
 
-    await writeFile(uploadPath, buffer);
-
+    // Create category with Cloudinary URL
     const category = await prisma.category.create({
       data: {
         name,
-        href :`/categories/${type}`,
+        href: `/categories/${type}`,
         type,
-        image: `/categories/${filename}`,
+        image: image, // Use the Cloudinary URL directly
       },
     });
 
-    return NextResponse.json({ category }, { status: 201 });
+    return NextResponse.json(
+      { 
+        category: {
+          ...category,
+        }
+      }, 
+      { status: 201 }
+    );
+
   } catch (error) {
     console.error("POST create category error:", error);
-    return NextResponse.json({ error: "Could not create category" }, { status: 500 });
+    return NextResponse.json(
+      { error: "خطأ في إنشاء الفئة" },
+      { status: 500 }
+    );
   }
 }

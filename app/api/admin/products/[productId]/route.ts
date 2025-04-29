@@ -2,9 +2,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticateUser } from "@/lib/auth";
 import prisma from "@/lib/database/prisma";
-import path from "path";
-import { writeFile, unlink } from "fs/promises";
-import { randomUUID } from "crypto";
 import { createLog } from "@/lib/logger";
 
 export const runtime = "nodejs";
@@ -85,9 +82,8 @@ export async function DELETE(req: NextRequest,context:{ params:Promise<{ product
 
 
 
-  export async function PUT(req: NextRequest,context:{ params:Promise<{ productId: string }>}) {
-    const { params } =   context;
-
+  export async function PUT(req: NextRequest, context: { params: Promise<{ productId: string }> }) {
+    const { params } = context;
     const session = await authenticateUser(req);
   
     if (!session?.user?.isAdmin) {
@@ -95,20 +91,19 @@ export async function DELETE(req: NextRequest,context:{ params:Promise<{ product
     }
   
     try {
-      const formData = await req.formData();
+      const body = await req.json();
+      const {
+        name,
+        price,
+        salePrice,
+        description,
+        categoryId,
+        currencyId,
+        discountPrice,
+        images // New array of Cloudinary URLs
+      } = body;
   
-      const name = formData.get("name") as string;
-      const price = parseFloat(formData.get("price") as string);
-      const salePrice = parseFloat(formData.get("salePrice") as string);
-      const description = (formData.get("description") as string) || "";
-      const categoryId = formData.get("categoryId") as string;
-      const currencyId = formData.get("currencyId") as string;
-      const discountPrice = parseFloat(formData.get("discountPrice") as string);
-    
-      const existingImages = ((formData.get("existingImages") as string) || "")
-        .split(",")
-        .filter(Boolean);
-  
+      // Validation
       if (!name || isNaN(price) || isNaN(salePrice) || !categoryId || !currencyId) {
         return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
       }
@@ -121,33 +116,9 @@ export async function DELETE(req: NextRequest,context:{ params:Promise<{ product
         return NextResponse.json({ error: "Product not found" }, { status: 404 });
       }
   
-      const currentImages = currentProduct.images as string[];
-      const imagesToDelete = currentImages.filter((img) => !existingImages.includes(img));
   
-      await Promise.all(
-        imagesToDelete.map(async (imgPath) => {
-          const fullPath = path.join(process.cwd(), "public", imgPath);
-          await unlink(fullPath).catch(console.error);
-        })
-      );
-  
-      // Process new images
-      const images = formData.getAll("images") as File[];
-      const newImagePaths = await Promise.all(
-        images.map(async (file) => {
-          const arrayBuffer = await file.arrayBuffer();
-          const buffer = Buffer.from(arrayBuffer);
-  
-          const ext = path.extname(file.name);
-          const filename = `${randomUUID()}${ext}`;
-          const uploadPath = path.join(process.cwd(), "public", "uploads", filename);
-  
-          await writeFile(uploadPath, buffer);
-  
-          return `/uploads/${filename}`;
-        })
-      );
-  
+
+      // Update product with new images (this automatically replaces old images)
       const updatedProduct = await prisma.product.update({
         where: { id: (await params).productId },
         data: {
@@ -157,21 +128,19 @@ export async function DELETE(req: NextRequest,context:{ params:Promise<{ product
           description,
           categoryId,
           currencyId,
-          images: [...existingImages, ...newImagePaths],
+          images: images, // This replaces the old array completely
+          discount: discountPrice > 0 ? {
+            price: discountPrice,
+            isVaild: true
+          } : null
         },
         include: {
           category: true,
           currency: true,
         },
       });
-      if(discountPrice>0){
-        await prisma.product.update({where:{id:updatedProduct.id},data:{
-          discount:{
-            price:discountPrice,
-            isVaild:true
-          }
-        }})
-      }
+  
+  
       await createLog({
         actionType: 'UPDATE',
         entityType: 'PRODUCT',
@@ -181,6 +150,7 @@ export async function DELETE(req: NextRequest,context:{ params:Promise<{ product
       });
   
       return NextResponse.json({ product: updatedProduct });
+  
     } catch (error) {
       console.error("Error updating product:", error);
       return NextResponse.json(
@@ -189,5 +159,3 @@ export async function DELETE(req: NextRequest,context:{ params:Promise<{ product
       );
     }
   }
-
-  

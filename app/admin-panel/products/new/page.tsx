@@ -2,16 +2,16 @@
 
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Loader2, Save, Plus, ArrowLeft, Trash2 } from 'lucide-react';
+import { Loader2, Save, ArrowLeft } from 'lucide-react';
 import Button from '../../components/Button';
 import Card from '@/app/admin-panel/components/card/Card';
 import CardHeader from '@/app/admin-panel/components/card/CardHeader';
 import CardTitle from '@/app/admin-panel/components/card/CardTitle';
 import CardContent from '@/app/admin-panel/components/card/CardContent';
 import { Input } from '@/components/ui/Input';
-import Image from 'next/image';
 import { toast } from 'react-hot-toast';
 import { Select } from '@/components/ui/Select';
+import ImageUpload from '../../components/ImageUploader';
 
 interface Currency {
   id: string;
@@ -36,9 +36,8 @@ const NewProductPage = () => {
     categoryId: '',
     discount: { price: 0 }
   });
-  const [images, setImages] = useState<File[]>([]);
-  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-  const [currencies, setCurrencies] = useState<Currency[]>([]);
+  const [imageUrls, setImageUrls] = useState<string[]>([]); // Cloudinary URLs
+    const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
   useEffect(() => {
@@ -74,54 +73,33 @@ const NewProductPage = () => {
     fetchData();
   }, []);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files);
-      setImages(prev => [...prev, ...files]);
-      const newPreviews = files.map(file => URL.createObjectURL(file));
-      setImagePreviews(prev => [...prev, ...newPreviews]);
-    }
-  };
 
-  const removeImage = (index: number) => {
-    const updatedImages = [...images];
-    updatedImages.splice(index, 1);
-    setImages(updatedImages);
-    
-    const updatedPreviews = [...imagePreviews];
-    updatedPreviews.splice(index, 1);
-    setImagePreviews(updatedPreviews);
-  };
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSaving(true);
 
     try {
-      const formData = new FormData();
-      formData.append('name', product.name);
-      formData.append('price', product.price.toString());
-      formData.append('salePrice', product.salePrice.toString());
-      formData.append('description', product.description);
-      formData.append('discountPrice', product.discount.price.toString());
-      formData.append('categoryId', product.categoryId);
-      formData.append('currencyId', product.currencyId);
-      
-      images.forEach(file => {
-        formData.append('images', file);
-      });
-
+      const productData = {
+        ...product,
+        images: imageUrls, // Send Cloudinary URLs directly
+        discount: product.discount.price > 0 ? { price: product.discount.price } : null
+      };
+ console.log(productData,'data')
       const response = await fetch('/api/admin/products', {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(productData),
       });
 
       if (!response.ok) throw new Error('Failed to create product');
-      
       toast.success('Product created successfully');
       router.push('/admin-panel/products');
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error('Failed to create product');
     } finally {
       setSaving(false);
@@ -135,7 +113,8 @@ const NewProductPage = () => {
       </div>
     );
   }
-
+  
+ console.log(imageUrls,'data')
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto text-gray-800">
       <Button 
@@ -238,44 +217,15 @@ const NewProductPage = () => {
               <div>
                 <label className="block text-sm font-medium mb-1">الصور</label>
                 <div className="grid grid-cols-2 lg:grid-cols-2 gap-3 mb-4">
-                  {imagePreviews.map((img, index) => (
-                    <div key={index} className="relative group aspect-square">
-                      <div className="relative w-full h-full rounded-md overflow-hidden border hover:shadow-lg transition-all duration-200">
-                        <Image
-                          src={img}
-                          alt={`Product preview ${index}`}
-                          fill
-                          unoptimized
-                          className="object-contain p-1 bg-white"
-                          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                        />
-                        <button
-                          type="button"
-                          onClick={() => removeImage(index)}
-                          className="absolute top-1 right-1 bg-red-500/90 text-white rounded-full p-1.5 
-                                    opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity
-                                    backdrop-blur-sm hover:bg-red-600"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </div>
-                  ))}
                 </div>
-
-                <label className="flex flex-col items-center justify-center border-2 border-dashed rounded-lg p-4 cursor-pointer hover:bg-gray-50">
-                  <Plus className="w-6 h-6 text-gray-400 mb-2" />
-                  <span className="text-sm text-gray-600">إضافة صور</span>
-                  <input
-                    type="file"
-                    multiple
-                    accept="image/*"
-                    onChange={handleImageChange}
-                    className="hidden"
-                  />
-                </label>
+                  <ImageUpload 
+                    values={imageUrls}
+                    setImageUrls={setImageUrls}
+                    maxFiles={5} // Set your desired max files
+                    />
+                    
               </div>
-            </div>
+             </div>
 
             <div className="flex justify-end mt-6 gap-3">
               <Button

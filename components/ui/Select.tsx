@@ -17,7 +17,7 @@ export function Select({ options, className, ...props }: SelectProps) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary-500"
+        className="w-full px-4 py-3 bg-white border text-slate-800 border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-primary-500"
       >
         <div className="flex items-center gap-2">
           {selectedOption?.icon}

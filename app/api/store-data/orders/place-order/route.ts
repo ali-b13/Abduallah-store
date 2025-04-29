@@ -51,6 +51,7 @@ export async function POST(request: NextRequest) {
             where: { id: item.productId },
             select: {
               price: true,
+              id:true,
               discount: {
                 select: {
                   price: true,
@@ -69,7 +70,9 @@ export async function POST(request: NextRequest) {
           const finalPrice = product.discount?.isVaild 
             ? product.discount.price 
             : product.price;
-
+            await prisma.product.update({where:{id:product.id},data:{
+              totalBuy:item.quantity
+            }})
           return {
             productId: item.productId,
             quantity: item.quantity,

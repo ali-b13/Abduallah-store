@@ -72,7 +72,7 @@ export function ProductSwiper({ title, products }: { title: string, products: Pr
                       <div className="flex items-center gap-1 min-w-[70px]">
                         <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                         <span className="text-sm font-medium text-gray-600">
-                          {product.averageRating}
+                          {product.totalBuy}
                         </span>
                       </div>
                     </div>

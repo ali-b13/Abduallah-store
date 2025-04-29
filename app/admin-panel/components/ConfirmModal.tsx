@@ -132,7 +132,7 @@ const ConfirmationModal = ({
               <h2 className="text-2xl font-bold text-black mb-2">{errorTitle}</h2>
               <p className="text-gray-600 mb-4">{errorDescription} {errorMessage && <span>{errorMessage}</span>}</p>
               <div className="flex justify-center gap-4">
-                <Button variant="outline" onClick={onClose}>
+                <Button className='text-slate-800' variant="outline" onClick={onClose}>
                   {cancelLabel}
                 </Button>
                 <Button variant="destructive" onClick={onConfirm}>

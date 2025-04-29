@@ -27,7 +27,7 @@ const Button = forwardRef<
       
       // Outline variant
       variant === 'outline' && [
-        "border border-gray-300 bg-transparent",
+        "border border-gray-300 bg-white text-slate-900",
         "hover:bg-gray-100 hover:text-gray-900",
         "dark:border-gray-700 dark:hover:bg-gray-800 dark:hover:text-gray-100"
       ],

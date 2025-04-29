@@ -8,7 +8,7 @@ import Link from "next/link";
 import { ProductWithCategoryProps } from "@/types/types";
 import { formatPrice } from "@/lib/utils";
 
-export function ProductCard({ id, name, price, currency,discount, averageRating, images, category }: ProductWithCategoryProps) {
+export function ProductCard({ id, name, price, currency,discount, totalBuy, images, category }: ProductWithCategoryProps) {
   const { addToCart } = useCart();
   const hasDiscount = discount?.isVaild && discount.price > 0
   const finalPrice = hasDiscount ? discount?.price : price
@@ -53,7 +53,7 @@ export function ProductCard({ id, name, price, currency,discount, averageRating,
           </h3>
           <div className="flex items-center gap-1 pl-2">
             <Star className="w-4 h-4 text-amber-400 fill-amber-400" />
-            <span className="text-sm font-medium text-gray-600">{averageRating}</span>
+            <span className="text-sm font-medium text-gray-600">{totalBuy}</span>
           </div>
         </div>
 

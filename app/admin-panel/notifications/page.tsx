@@ -65,7 +65,7 @@ const NotificationPage = () => {
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto">
       <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl md:text-3xl font-bold">سجل الأنشطة</h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-slate-900">سجل الأنشطة</h1>
       </div>
 
       <div className="bg-white rounded-xl shadow-sm border border-gray-100">
@@ -86,7 +86,7 @@ const NotificationPage = () => {
                         </div>
                         <div className="flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="font-medium">{log.user.name}</span>
+                            <span className="font-medium text-slate-500">{log.user.name}</span>
                             <span className="text-gray-500 text-sm">
                               {new Date(log.createdAt).toLocaleDateString('ar-EG', {
                                 weekday: 'long',

@@ -1,9 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { authenticateUser } from "@/lib/auth";
 import prisma from "@/lib/database/prisma";
-import path from "path";
-import { writeFile } from "fs/promises";
-import { randomUUID } from "crypto";
 
 export const runtime = "nodejs";
 import { Prisma } from "@prisma/client";
@@ -86,38 +83,23 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const formData = await req.formData();
+    const body = await req.json();
 
-    const name = formData.get("name") as string;
-    const price = parseFloat(formData.get("price") as string);
-    const salePrice = parseFloat(formData.get("salePrice") as string);
-    const description = (formData.get("description") as string) || "";
-    const categoryId = formData.get("categoryId") as string;
-    const currencyId = formData.get("currencyId") as string;
-    const discountPrice = parseFloat(formData.get("discountPrice") as string);
-
-
+    const {
+      name,
+      price,
+      salePrice,
+      description,
+      categoryId,
+      currencyId,
+      discountPrice,
+      images // Array of Cloudinary URLs from the frontend
+    } = body;
 
     if (!name || isNaN(price) || isNaN(salePrice) || !categoryId || !currencyId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // Process new images
-    const images = formData.getAll("images") as File[];
-    const newImagePaths = await Promise.all(
-      images.map(async (file) => {
-        const arrayBuffer = await file.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-
-        const ext = path.extname(file.name);
-        const filename = `${randomUUID()}${ext}`;
-        const uploadPath = path.join(process.cwd(), "public", "uploads", filename);
-
-        await writeFile(uploadPath, buffer);
-
-        return `/uploads/${filename}`;
-      })
-    );
     const newProduct = await prisma.product.create({
       data: {
         name,
@@ -126,28 +108,25 @@ export async function POST(req: NextRequest) {
         description,
         categoryId,
         currencyId,
-        images: newImagePaths,
+        images: images || [],
+        discount: discountPrice > 0 ? {
+          price: discountPrice,
+          isVaild: true
+        } : null
       },
       include: {
         category: true,
         currency: true,
       },
     });
-    if(discountPrice>0){
-      await prisma.product.update({where:{id:newProduct.id},data:{
-        discount:{
-          price:discountPrice,
-          isVaild:true
-        }
-      }})
-    }
-      await createLog({
-            actionType: 'CREATE',
-            entityType: 'PRODUCT',
-            entityId: newProduct.id,
-            userId: session.user.id,
-            details: ` تم اضافة منتج جديد: ${newProduct.name}`
-          });
+
+    await createLog({
+      actionType: 'CREATE',
+      entityType: 'PRODUCT',
+      entityId: newProduct.id,
+      userId: session.user.id,
+      details: `تم اضافة منتج جديد: ${newProduct.name}`
+    });
 
     return NextResponse.json({ product: newProduct }, { status: 201 });
 

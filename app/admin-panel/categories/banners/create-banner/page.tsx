@@ -1,4 +1,3 @@
-// app/banners/create-banner/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -9,12 +8,12 @@ import ConfirmationModal from '@/app/admin-panel/components/ConfirmModal';
 import { toast } from 'react-hot-toast';
 import { Select } from '@/components/ui/Select';
 import { Category } from '@prisma/client';
-import Image from 'next/image';
+import ImageUpload from '@/app/admin-panel/components/ImageUploader';
 
 interface BannerForm {
   title: string;
   categoryId: string;
-  image: File | null;
+  image: string;
   isAdvertising: boolean;
 }
 
@@ -24,11 +23,11 @@ export default function CreateBannerPage() {
   const router = useRouter();
   const [form, setForm] = useState<BannerForm>({
     title: '',
-    categoryId:"",
-    image: null,
+    categoryId: "",
+    image: '',
     isAdvertising: false,
   });
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [imageUrls, setImageUrls] = useState<string[]>([]);
   const [modalStatus, setModalStatus] = useState<ModalStatus>(null);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [categories, setCategories] = useState([]);
@@ -52,12 +51,7 @@ export default function CreateBannerPage() {
 
   useEffect(() => {
     fetchCategories();
-    if (form.image) {
-      const url = URL.createObjectURL(form.image);
-      setPreviewImage(url);
-      return () => URL.revokeObjectURL(url);
-    }
-  }, [form.image]);
+  }, []);
 
   const handleChange = (field: keyof Omit<BannerForm, 'image' | 'isAdvertising'>) => (
     e: React.ChangeEvent<HTMLInputElement>
@@ -65,19 +59,13 @@ export default function CreateBannerPage() {
     setForm(prev => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files?.[0]) {
-      setForm(prev => ({ ...prev, image: e.target.files![0] }));
-    }
-  };
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.image) {
+    if (!imageUrls.length) {
       toast.error('الصورة مطلوبة');
       return;
     }
-    if (!form.isAdvertising && (!form.title)) {
+    if (!form.isAdvertising && !form.title) {
       toast.error('العنوان والرابط مطلوبين');
       return;
     }
@@ -87,15 +75,17 @@ export default function CreateBannerPage() {
   const handleConfirm = async () => {
     setModalStatus('processing');
     try {
-      const data = new FormData();
-      data.append('title', form.title);
-      data.append('categoryId', form.categoryId);
-      data.append('isAdvertising', form.isAdvertising.toString());
-      if (form.image) data.append('image', form.image);
+      const bannerData = {
+        ...form,
+        image: imageUrls[0] // Use first image URL
+      };
 
       const res = await fetch('/api/admin/banners', {
         method: 'POST',
-        body: data,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bannerData),
       });
 
       if (!res.ok) {
@@ -110,8 +100,8 @@ export default function CreateBannerPage() {
       }, 800);
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'حدث خطأ غير متوقع';
-    setErrorMessage(errorMessage);
-    setModalStatus('error');
+      setErrorMessage(errorMessage);
+      setModalStatus('error');
     }
   };
 
@@ -122,7 +112,7 @@ export default function CreateBannerPage() {
         <p className="text-slate-600 mt-2">أضف بانر جديد إلى الموقع</p>
       </div>
 
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-lg space-y-6">
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-xl shadow-lg space-y-6 text-slate-800">
         <div className="space-y-4">
           <label className="flex items-center gap-3 text-sm font-medium text-neutral-600">
             <input
@@ -140,7 +130,6 @@ export default function CreateBannerPage() {
             <div className="space-y-2">
               <label className="block text-sm font-medium text-neutral-400">عنوان البانر</label>
               <Input
-                title="Title *"
                 value={form.title}
                 onChange={handleChange('title')}
                 required={!form.isAdvertising}
@@ -151,7 +140,7 @@ export default function CreateBannerPage() {
               <label className="block text-sm font-medium text-neutral-400">ربط الفئة</label>
               <Select
                 options={categories}
-                value={form.categoryId||""}
+                value={form.categoryId || ""}
                 onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
                 required={!form.isAdvertising}
               />
@@ -161,35 +150,18 @@ export default function CreateBannerPage() {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-neutral-400">صورة البانر</label>
-          <label className="flex flex-col items-center justify-center w-full p-4 border-2 border-dashed rounded-lg cursor-pointer border-slate-300 hover:border-indigo-500 transition-colors">
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageChange}
-              className="hidden"
-              required
-            />
-            <div className="text-center">
-              <span className="text-slate-500">انقر لتحميل الصورة</span>
-              <p className="text-xs text-slate-400 mt-1">PNG, JPG, GIF حتى 10 ميجابايت</p>
-            </div>
-          </label>
-          {previewImage && (
-            <div className="mt-4">
-              <p className="text-sm text-slate-600 mb-2">معاينة:</p>
-              <Image
-                src={previewImage}
-                width={160}
-                height={160}
-                alt="Banner preview"
-                className="w-full max-w-md h-48 object-cover rounded-lg border border-slate-200"
-              />
-            </div>
-          )}
+          <ImageUpload
+            values={imageUrls}
+            setImageUrls={setImageUrls}
+            maxFiles={1}
+            
+          />
         </div>
 
         <div className="flex justify-end gap-4 pt-6">
-          <Button className='text-slate-800' variant="outline" onClick={() => router.back()} disabled={!!modalStatus}>
+          <Button className='text-slate-800' variant="outline" 
+                  onClick={() => router.back()} 
+                  disabled={!!modalStatus}>
             إلغاء
           </Button>
           <Button type="submit" disabled={!!modalStatus}>

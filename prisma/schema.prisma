@@ -48,7 +48,7 @@ model Product {
   description   String
   currency      Currency    @relation(fields: [currencyId], references: [id], name: "CurrencyToProduct")
   images        String[]
-  averageRating Float       @default(0)
+  totalBuy      Int       @default(0)
   reviews       Review[]
   createdAt     DateTime    @default(now())
   OrderItem     OrderItem[]
