@@ -112,7 +112,7 @@ export default function EditCategoryPage() {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-gray-700">نوع الفئة بالانجليزي مثال: books</label>
+          <label className="block text-sm font-medium text-gray-700">نوع الفئة بالانجليزي مثال : books</label>
           <Input
             value={form.type}
             onChange={handleChange('type')}
