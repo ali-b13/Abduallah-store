@@ -2,7 +2,6 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { UserPlus, Edit, Trash, Package, Megaphone } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { SkeletonProductCard } from '@/components/skeltons/ProductSkelton';
 
