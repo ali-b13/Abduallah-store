@@ -91,7 +91,7 @@ export function Navbar() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 hover:text-primary transition-colors"
+              className="p-2 hover:text-primary transition-colors z-50"
             >
               {isOpen ? <X className="h-6 w-6 text-gray-800" /> : <Menu className="h-6 w-6 text-gray-800" />}
             </button>

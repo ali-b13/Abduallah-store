@@ -64,10 +64,7 @@ const AdminSidebar = () => {
     },
   ];
 
-  const handleOrdersClick = () => {
-    setPendingOrdersCount(0);
-    setIsOpen(false);
-  };
+ 
 
   return (
     <>
@@ -91,7 +88,7 @@ const AdminSidebar = () => {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  onClick={item.name === "الطلبات" ? handleOrdersClick : undefined}
+                  onClick={()=>setIsOpen(prev=>!prev)}
                   className={cn(
                     "flex items-center gap-3 rounded-lg px-4 py-3",
                     pathname === item.href
@@ -145,7 +142,7 @@ const AdminSidebar = () => {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      onClick={item.name === "الطلبات" ? handleOrdersClick : undefined}
+                      onClick={()=>setIsOpen(prev=>!prev)}
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-4 py-3",
                         pathname === item.href

@@ -160,13 +160,13 @@ const SingleOrderPage = () => {
                 ))}
                 <div className="flex justify-between items-center pt-4 text-slate-700">
                   <div>
-                    <p className="font-medium">المجموع (SAR)</p>
+                    <p className="font-medium">المجموع (ر.س)</p>
                     <p className="font-medium text-lg">
                       SAR {order.totals.SAR.toFixed(2)}
                     </p>
                   </div>
                   <div>
-                    <p className="font-medium">المجموع (YER)</p>
+                    <p className="font-medium">المجموع (ر.ي)</p>
                     <p className="font-medium text-lg">
                       YER {order.totals.YER.toFixed(2)}
                     </p>
@@ -183,7 +183,7 @@ const SingleOrderPage = () => {
                 <CardTitle className="text-lg">تتبع حالة الطلب</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="p-6 border-t border-gray-200">
+                <div className="p-2 border-t border-gray-200">
                   <div className="relative">
                     {/* Vertical timeline line */}
                     <div className="absolute right-6 top-4 bottom-4 w-0.5 bg-gray-200"></div>
@@ -238,7 +238,7 @@ const SingleOrderPage = () => {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Input
-                className='mb-4'
+                className='mb-4 text-slate-900'
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="أضف رسالة تحديث الحالة..."
@@ -279,8 +279,8 @@ const SingleOrderPage = () => {
                       تسليم الطلب
                     </Button>
                   )}
-                  <Button className='text-slate-900 bg-green-500' variant="outline" onClick={handleSendMessage}>
-                    <MessageSquareText className="w-4 h-4 mr-2" />
+                  <Button className='text-white bg-green-500' variant="outline" onClick={handleSendMessage}>
+                    <MessageSquareText className="w-4 h-4 mx-2" />
                     إرسال رسالة واتساب
                   </Button>
                 </div>

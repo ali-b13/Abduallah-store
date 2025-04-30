@@ -20,7 +20,7 @@ export const Badge: FC<BadgeProps> = ({
     return (
       <div
         className={cn(
-          "flex flex-row items-center justify-center gap-4 rounded-full px-2.5 py-0.5 text-sm font-medium",
+          "flex flex-row items-center justify-center gap-4 rounded-full px-3 py-0.5 text-sm font-medium",
           variant === 'destructive' && "bg-red-100 p-2 md:p-0 text-red-800",
           variant === 'success' && "bg-green-100 p-2 md:p-0 text-green-800",
           variant === 'default' && "bg-gray-200 p-2 md:p-0 text-gray-800",
@@ -28,7 +28,7 @@ export const Badge: FC<BadgeProps> = ({
         )}
         {...props}
       >
-        <span className="text-center">{text}</span>
+        <span className="text-center text-xs lg:p-1">{text}</span>
         {Icon && <Icon className="h-4 w-4" />}
       </div>
     );

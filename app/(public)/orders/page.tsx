@@ -171,7 +171,7 @@ export default function OrdersPage() {
                 className="bg-white shadow-xl rounded-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300"
               >
                 {/* Order Header */}
-                <div className="p-6 bg-gradient-to-r from-primary to-orange-500 text-white">
+                <div className="p-6 bg-gray-800 text-white">
                   <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center space-x-2">
                       <span className="font-cairo text-base font-bold">
@@ -181,14 +181,14 @@ export default function OrdersPage() {
                     </div>
                   </div>
                   <div className="flex flex-col space-y-2">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center gap-2">
                       <MapPin className="w-5 h-5" />
                       <span className="text-base font-bold">
                         عنوان التسليم:
                       </span>
                       <span className="text-base">{order.address}</span>
                     </div>
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center gap-2 ">
                       <Calendar className="w-5 h-5" />
                       <span className="text-base font-bold">
                         تاريخ الطلب:
