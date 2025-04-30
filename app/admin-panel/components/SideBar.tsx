@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, Users, Bell, Settings, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Package, Users, Bell, Settings, LogOut, Menu, X, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -56,6 +56,11 @@ const AdminSidebar = () => {
       name: "الإشعارات",
       href: "/admin-panel/notifications",
       icon: Bell,
+    },
+    {
+      name: "الرسائل",
+      href: "/admin-panel/messages",
+      icon: MessageCircle,
     },
     {
       name: "الإعدادات",

@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
 
-    const logs = await prisma.logs.findMany({
+    const messages = await prisma.message.findMany({
       skip: (page - 1) * limit,
       take: limit,
       include:{user:{
@@ -26,9 +26,9 @@ export async function GET(req: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
  
-    const total = await prisma.logs.count();
+    const total = await prisma.message.count();
     return NextResponse.json({
-      logs,
+      messages,
       pagination: {
         total,
         totalPages: Math.ceil(total / limit),
@@ -37,7 +37,7 @@ export async function GET(req: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('[LOGS_GET]', error);
+    console.error('[MESSAGES_OUT]', error);
     return new NextResponse('Internal error', { status: 500 });
   }
 }
